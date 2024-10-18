@@ -16,6 +16,7 @@ from transformers import TrainerCallback
 from contextlib import contextmanager
 import sys
 import warnings
+from prettytable import PrettyTable  # Import PrettyTable
 
 # Suppress wandb
 os.environ["WANDB_DISABLED"] = "true"
@@ -148,7 +149,11 @@ def main():
     )
     
     results_train = []
-    
+
+    # Create a table for results
+    results_table = PrettyTable()
+    results_table.field_names = ["Task", "Accuracy"]
+
     for task in GLUE_TASKS:
         print(f"\nFine-tuning on {task.upper()} task with rank={args.rank}, a={args.a}, b={args.b}...")
         
@@ -188,9 +193,17 @@ def main():
         # Store results
         acc = result.get('eval_accuracy', result.get('eval_pearson', 0))
         results_train.append(acc)
+        
+        # Add results to the table
+        results_table.add_row([task.upper(), acc])
+
         print(f"Results for {task.upper()}: {result}\n")
     
     print(f"Final results for rank={args.rank}, a={args.a}, b={args.b}: {results_train}")
+    
+    # Print the final results table
+    print(results_table)
+    
     return results_train
 
 if __name__ == "__main__":
