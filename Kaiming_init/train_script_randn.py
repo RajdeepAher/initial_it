@@ -123,7 +123,14 @@ def merge_l(model, lora_dim, lora_a, lora_b):
 def main():
     # Parse arguments
     args = parse_args()
+    warnings.filterwarnings("ignore", message="Was asked to gather along dimension 0, but all input tensors were scalars")
+    warnings.filterwarnings("ignore", category=FutureWarning)
+    warnings.filterwarnings("ignore", category=UserWarning, 
+                            message="Some weights of .* were not initialized from the model checkpoint.*")
     
+    # Set the logging level to suppress progress bars
+    logging.getLogger("transformers").setLevel(logging.ERROR)
+    logging.getLogger("datasets").setLevel(logging.ERROR)
     # Suppress warnings
     warnings.filterwarnings("ignore", message="Was asked to gather along dimension 0, but all input tensors were scalars")
     
