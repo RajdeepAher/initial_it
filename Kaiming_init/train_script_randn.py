@@ -178,7 +178,7 @@ def main():
             tokenizer=tokenizer,
             data_collator=data_collator,
             compute_metrics=lambda eval_pred: compute_metrics(task, metric, eval_pred),
-            callbacks=[LogMetricsCallback()]
+            #callbacks=[LogMetricsCallback()]
         )
         
         # Train and evaluate
