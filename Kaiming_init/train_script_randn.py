@@ -16,6 +16,7 @@ from transformers import TrainerCallback
 from contextlib import contextmanager
 import sys
 import warnings
+import logging
 from prettytable import PrettyTable  # Import PrettyTable
 
 # Suppress wandb
