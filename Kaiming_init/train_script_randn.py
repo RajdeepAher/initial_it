@@ -74,10 +74,6 @@ def compute_metrics(task_name, metric, eval_pred):
         task_metric = metric.compute(predictions=predictions, references=labels)
         return {**task_metric, "accuracy": accuracy}
 
-class LogMetricsCallback(TrainerCallback):
-    def on_evaluate(self, args, state, control, metrics=None, **kwargs):
-        if metrics is not None:
-            print(f"\nMetrics after epoch {state.epoch}: {metrics}\n")
 
 def merge_l(model, lora_dim, lora_a, lora_b):
     # Import LoRA implementation
@@ -178,8 +174,7 @@ def main():
             eval_dataset=encoded_dataset["validation"],
             tokenizer=tokenizer,
             data_collator=data_collator,
-            compute_metrics=lambda eval_pred: compute_metrics(task, metric, eval_pred),
-            callbacks=[LogMetricsCallback()]
+            compute_metrics=lambda eval_pred: compute_metrics(task, metric, eval_pred)
         )
         
         # Train and evaluate
