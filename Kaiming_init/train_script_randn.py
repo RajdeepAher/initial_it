@@ -16,8 +16,6 @@ from transformers import TrainerCallback
 from contextlib import contextmanager
 import sys
 import warnings
-import logging
-from prettytable import PrettyTable  # Import PrettyTable
 
 # Suppress wandb
 os.environ["WANDB_DISABLED"] = "true"
@@ -129,12 +127,6 @@ def main():
     warnings.filterwarnings("ignore", category=UserWarning, 
                             message="Some weights of .* were not initialized from the model checkpoint.*")
     
-    # Set the logging level to suppress progress bars
-    logging.getLogger("transformers").setLevel(logging.ERROR)
-    logging.getLogger("datasets").setLevel(logging.ERROR)
-    # Suppress warnings
-    warnings.filterwarnings("ignore", message="Was asked to gather along dimension 0, but all input tensors were scalars")
-    
     # Initialize tokenizer
     tokenizer = AutoTokenizer.from_pretrained(MODEL_CHECKPOINT)
     
@@ -157,11 +149,7 @@ def main():
     )
     
     results_train = []
-
-    # Create a table for results
-    results_table = PrettyTable()
-    results_table.field_names = ["Task", "Accuracy"]
-
+    
     for task in GLUE_TASKS:
         print(f"\nFine-tuning on {task.upper()} task with rank={args.rank}, a={args.a}, b={args.b}...")
         
@@ -191,7 +179,7 @@ def main():
             tokenizer=tokenizer,
             data_collator=data_collator,
             compute_metrics=lambda eval_pred: compute_metrics(task, metric, eval_pred),
-            #callbacks=[LogMetricsCallback()]
+            callbacks=[LogMetricsCallback()]
         )
         
         # Train and evaluate
@@ -201,17 +189,9 @@ def main():
         # Store results
         acc = result.get('eval_accuracy', result.get('eval_pearson', 0))
         results_train.append(acc)
-        
-        # Add results to the table
-        results_table.add_row([task.upper(), acc])
-
         print(f"Results for {task.upper()}: {result}\n")
     
     print(f"Final results for rank={args.rank}, a={args.a}, b={args.b}: {results_train}")
-    
-    # Print the final results table
-    print(results_table)
-    
     return results_train
 
 if __name__ == "__main__":
