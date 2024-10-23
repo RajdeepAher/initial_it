@@ -266,34 +266,34 @@ def main():
         model_args, data_args, training_args = parser.parse_args_into_dataclasses()
 
     ### Added code
-    peft_config = LoraConfig(
-        task_type="SEQ_CLS",
-        inference_mode=False,
-        r=model_args.lora_rank,
-        lora_alpha=model_args.lora_alpha,
-        lora_dropout=0.0,
-        target_modules=["query", "value", "attention.output.dense", "output.dense"],
-    )
+    # peft_config = LoraConfig(
+    #     task_type="SEQ_CLS",
+    #     inference_mode=False,
+    #     r=model_args.lora_rank,
+    #     lora_alpha=model_args.lora_alpha,
+    #     lora_dropout=0.0,
+    #     target_modules=["query", "value", "attention.output.dense", "output.dense"],
+    # )
 
-    now = datetime.datetime.now()
-    now.strftime("%Y-%m-%dT%H:%M:%S") + ("-%02d" % (now.microsecond / 10000))
+    # now = datetime.datetime.now()
+    # now.strftime("%Y-%m-%dT%H:%M:%S") + ("-%02d" % (now.microsecond / 10000))
 
-    adapter_name = "default"
-    peft_config_dict = {}
-    if not isinstance(peft_config, PromptLearningConfig):
-        peft_config_dict[adapter_name] = peft_config
+    # adapter_name = "default"
+    # peft_config_dict = {}
+    # if not isinstance(peft_config, PromptLearningConfig):
+    #     peft_config_dict[adapter_name] = peft_config
 
-    with open("config/reconstruct_config.yaml", "r") as stream:
-        reconstr_config = yaml.load(stream, Loader=yaml.FullLoader)
-    reconstr_type = reconstr_config["reconstruction_type"]
-    reconstr_config[reconstr_type]["rank"] = peft_config_dict[adapter_name].r
+    # with open("config/reconstruct_config.yaml", "r") as stream:
+    #     reconstr_config = yaml.load(stream, Loader=yaml.FullLoader)
+    # reconstr_type = reconstr_config["reconstruction_type"]
+    # reconstr_config[reconstr_type]["rank"] = peft_config_dict[adapter_name].r
 
-    training_args.output_dir = f"{training_args.output_dir}/{model_args.model_name_or_path}/{data_args.task_name}/LoRA_init_{reconstr_type}_rank_{peft_config_dict[adapter_name].r}_lr_{training_args.learning_rate}_clslr_{model_args.cls_learning_rate}_seed_{training_args.seed}/output_{now}"
-    os.makedirs(training_args.output_dir)
+    # training_args.output_dir = f"{training_args.output_dir}/{model_args.model_name_or_path}/{data_args.task_name}/LoRA_init_{reconstr_type}_rank_{peft_config_dict[adapter_name].r}_lr_{training_args.learning_rate}_clslr_{model_args.cls_learning_rate}_seed_{training_args.seed}/output_{now}"
+    # os.makedirs(training_args.output_dir)
 
-    log_dir = f"{training_args.output_dir}/tb_logs"
-    os.makedirs(log_dir, exist_ok=True)
-    tb_writer = SummaryWriter(log_dir=log_dir)
+    # log_dir = f"{training_args.output_dir}/tb_logs"
+    # os.makedirs(log_dir, exist_ok=True)
+    # tb_writer = SummaryWriter(log_dir=log_dir)
     ###
     ### Rajdeep modified
     # Create a LoRA configuration
