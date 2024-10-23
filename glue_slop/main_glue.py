@@ -507,11 +507,11 @@ def main():
     #tb_writer.add_text("peft_config_dict", str(peft_config_dict), 0)
     tb_writer.add_text("peft_config", str(peft_config), 0)
 
-    tb_writer.add_text("reconstr_config", str(reconstr_config), 0)
-    with open(
-        os.path.join(training_args.output_dir, "reconstr_config.json"), "w"
-    ) as fp:
-        json.dump(reconstr_config, fp)
+    # tb_writer.add_text("reconstr_config", str(reconstr_config), 0)
+    # with open(
+    #     os.path.join(training_args.output_dir, "reconstr_config.json"), "w"
+    # ) as fp:
+    #     json.dump(reconstr_config, fp)
 
     # find_and_initialize(
     #     model,
