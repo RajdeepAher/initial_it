@@ -295,7 +295,29 @@ def main():
     os.makedirs(log_dir, exist_ok=True)
     tb_writer = SummaryWriter(log_dir=log_dir)
     ###
+    ### Rajdeep modified
+    # Create a LoRA configuration
+    peft_config = LoraConfig(
+        task_type="SEQ_CLS",        # Specify the task type as sequence classification
+        inference_mode=False,       # Set inference mode to False for training
+        r=model_args.lora_rank,     # LoRA rank from model arguments
+        lora_alpha=model_args.lora_alpha,  # LoRA alpha from model arguments
+        lora_dropout=0.0,           # No dropout
+        target_modules=["query", "value", "attention.output.dense", "output.dense"],  # Target layers for LoRA
+    )
 
+    # Generate a timestamp for output directory naming
+    now = datetime.datetime.now()
+    timestamp = now.strftime("%Y-%m-%dT%H:%M:%S") + ("-%02d" % (now.microsecond / 10000))
+
+    # Prepare the output directory structure
+    training_args.output_dir = f"{training_args.output_dir}/{model_args.model_name_or_path}/{data_args.task_name}/LoRA_rank_{peft_config.r}_lr_{training_args.learning_rate}_seed_{training_args.seed}/output_{timestamp}"
+    os.makedirs(training_args.output_dir, exist_ok=True)  # Create the output directory if it doesn't exist
+
+    # Create a TensorBoard log directory
+    log_dir = f"{training_args.output_dir}/tb_logs"
+    os.makedirs(log_dir, exist_ok=True)  # Create the log directory if it doesn't exist
+    tb_writer = SummaryWriter(log_dir=log_dir) 
     # Sending telemetry. Tracking the example usage helps us better allocate resources to maintain them. The
     # information sent is the one passed as arguments along with your Python/PyTorch versions.
     send_example_telemetry("run_glue", model_args, data_args)
