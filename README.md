@@ -20,3 +20,36 @@ git clone https://github.com/RajdeepAher/lora-mini.git
 cd lora-mini
 pip install -r requirements.txt
 ```
+
+## Datasets
+
+## Results
+
+
+### Reproducing Results
+
+## Citation
+
+If you find our work useful, please cite our paper:
+
+```
+@misc{singh2024loraminiadaptationmatrices,
+      title={LoRA-Mini : Adaptation Matrices Decomposition and Selective Training}, 
+      author={Ayush Singh and Rajdeep Aher and Shivank Garg},
+      year={2024},
+      eprint={2411.15804},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2411.15804}, 
+}
+```
+
+## Contact
+For any questions or suggestions, please feel free to open an issue or contact the authors:
+
+- Ayush Singh: ayush_s@mt.iitr.ac.in 
+- Rajdeep Aher: aher_rp@ma.iitr.ac.in 
+- Shivank Garg: shivank_g@mfs.iitr.ac.in 
+
+
+
