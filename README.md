@@ -1,6 +1,6 @@
 # LoRA-Mini: Adaptation Matrices Decomposition and Selective Training
 
-This repository contains the official implementation of the paper: [LoRA-Mini : Adaptation Matrices Decomposition and Selective Training](https://arxiv.org/abs/2411.15804) **(Accepted at AAAI CoLoRAI Workshop)**
+This repository contains the official implementation of the paper: [LoRA-Mini : Adaptation Matrices Decomposition and Selective Training](https://arxiv.org/abs/2411.15804) **(Accepted at AAAI CoLoRAI Workshop 2025)**
 
 ## Introduction
 
